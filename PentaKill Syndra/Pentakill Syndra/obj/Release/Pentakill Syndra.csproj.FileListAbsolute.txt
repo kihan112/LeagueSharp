@@ -1,0 +1,10 @@
+C:\Users\rythimy\Documents\Visual Studio 2013\Projects\PentaKill Syndra\Pentakill Syndra\bin\Release\Pentakill Syndra.exe.config
+C:\Users\rythimy\Documents\Visual Studio 2013\Projects\PentaKill Syndra\Pentakill Syndra\bin\Release\Pentakill Syndra.exe
+C:\Users\rythimy\Documents\Visual Studio 2013\Projects\PentaKill Syndra\Pentakill Syndra\bin\Release\Pentakill Syndra.pdb
+C:\Users\rythimy\Documents\Visual Studio 2013\Projects\PentaKill Syndra\Pentakill Syndra\bin\Release\LeagueSharp.Common.dll
+C:\Users\rythimy\Documents\Visual Studio 2013\Projects\PentaKill Syndra\Pentakill Syndra\bin\Release\LeagueSharp.dll
+C:\Users\rythimy\Documents\Visual Studio 2013\Projects\PentaKill Syndra\Pentakill Syndra\bin\Release\SharpDX.dll
+C:\Users\rythimy\Documents\Visual Studio 2013\Projects\PentaKill Syndra\Pentakill Syndra\bin\Release\SharpDX.Direct3D9.dll
+C:\Users\rythimy\Documents\Visual Studio 2013\Projects\PentaKill Syndra\Pentakill Syndra\bin\Release\LeagueSharp.xml
+C:\Users\rythimy\Documents\Visual Studio 2013\Projects\PentaKill Syndra\Pentakill Syndra\obj\Release\Pentakill Syndra.exe
+C:\Users\rythimy\Documents\Visual Studio 2013\Projects\PentaKill Syndra\Pentakill Syndra\obj\Release\Pentakill Syndra.pdb
