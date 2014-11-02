@@ -147,8 +147,6 @@ namespace Pentakill_Syndra
             Interrupter.OnPossibleToInterrupt += Interrupter_OnPossibleToInterrupt;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Orbwalking.BeforeAttack += Orbwalking_BeforeAttack;
-            Game.PrintChat("If it fails to use W, Please go to Appdata -> Roaming -> Leaguesharp folder and clear it and test again before reporting!");
-            Game.PrintChat(ChampionName + " Loaded! --- By esk0r, Modified and tweaked by xSalice");
         }
 
         static void Orbwalking_BeforeAttack(Orbwalking.BeforeAttackEventArgs args)
