@@ -442,9 +442,9 @@ namespace Pentakill_Syndra
             var damage = 0d;
 
             if (Q.IsReady() && Q.Level == 5)
-                damage += Player.GetSpellDamage(enemy, SpellSlot.Q) * 1.15;
+                damage += Player.GetSpellDamage(enemy, SpellSlot.Q) * 1.15 - 10;
             else if (Q.IsReady())
-                damage += Player.GetSpellDamage(enemy, SpellSlot.Q);
+                damage += Player.GetSpellDamage(enemy, SpellSlot.Q) - 10;
 
             if (W.IsReady())
                 damage += Player.GetSpellDamage(enemy, SpellSlot.W);
@@ -465,7 +465,7 @@ namespace Pentakill_Syndra
                 damage += ObjectManager.Player.GetSummonerSpellDamage(enemy, Damage.SummonerSpell.Ignite);
 
             if (R.IsReady())
-                damage += Math.Min(6, Player.Spellbook.GetSpell(SpellSlot.R).Ammo) * Player.GetSpellDamage(enemy, SpellSlot.R, 1);
+                damage += Math.Min(6, Player.Spellbook.GetSpell(SpellSlot.R).Ammo) * Player.GetSpellDamage(enemy, SpellSlot.R, 1) - 20;
 
             return (float)damage * (DFG.IsReady() ? 1.2f : 1);
         }
@@ -474,9 +474,9 @@ namespace Pentakill_Syndra
             var damage = 0d;
 
             if (Q.IsReady() && Q.Level == 5)
-                damage += Player.GetSpellDamage(enemy, SpellSlot.Q) * 1.15;
+                damage += Player.GetSpellDamage(enemy, SpellSlot.Q) * 1.15 - 10;
             else if (Q.IsReady())
-                damage += Player.GetSpellDamage(enemy, SpellSlot.Q);
+                damage += Player.GetSpellDamage(enemy, SpellSlot.Q) - 10;
 
             if (DFG.IsReady())
                 damage += Player.GetItemDamage(enemy, Damage.DamageItems.Dfg) / 1.2;
@@ -491,7 +491,7 @@ namespace Pentakill_Syndra
                 damage += ObjectManager.Player.GetSummonerSpellDamage(enemy, Damage.SummonerSpell.Ignite);
 
             if (R.IsReady())
-                damage += Math.Min(6, Player.Spellbook.GetSpell(SpellSlot.R).Ammo) * Player.GetSpellDamage(enemy, SpellSlot.R, 1);
+                damage += Math.Min(6, Player.Spellbook.GetSpell(SpellSlot.R).Ammo) * Player.GetSpellDamage(enemy, SpellSlot.R, 1) - 20;
 
             return (float)damage * (DFG.IsReady() ? 1.2f : 1);
         }
