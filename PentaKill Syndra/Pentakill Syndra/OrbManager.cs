@@ -50,7 +50,7 @@ namespace Pentakill_Syndra
                 tmpQOrbPos = args.End;
             }
 
-            if (sender.IsMe && WObject(true) != null && (args.SData.Name == "SyndraW" || args.SData.Name == "syndraw2"))
+            if (sender.IsMe && WObject(true) != null && (args.SData.Name == "SyndraW" || args.SData.Name == "syndraw2" || args.SData.Name == "syndrawcast"))
             {
                 tmpWOrbT = Environment.TickCount + 250;
                 tmpWOrbPos = args.End;
@@ -89,12 +89,12 @@ namespace Pentakill_Syndra
             }
             if (!toGrab)
             {
-                if ((Environment.TickCount > tmpQOrbT + Program.Q.Delay) || (tmpQOrbT + Program.Q.Delay < Environment.TickCount + (Program.E.Delay + ObjectManager.Player.Distance(tmpQOrbPos) / Program.E.Speed)))
+                if ((Environment.TickCount > tmpQOrbT + Program.Q.Delay * 1000) || (tmpQOrbT + Program.Q.Delay * 1000 < Environment.TickCount + (Program.E.Delay + ObjectManager.Player.Distance(tmpQOrbPos) / Program.E.Speed) * 1000))
                 {
                     result.Add(tmpQOrbPos);
                 }
 
-                if ((Environment.TickCount > tmpWOrbT + Program.W.Delay) || (tmpWOrbT + Program.W.Delay < Environment.TickCount + (Program.E.Delay + ObjectManager.Player.Distance(tmpWOrbPos) / Program.E.Speed)))
+                if ((Environment.TickCount > tmpWOrbT + Program.W.Delay * 1000) || (tmpWOrbT + Program.W.Delay * 1000 < Environment.TickCount + (Program.E.Delay + ObjectManager.Player.Distance(tmpWOrbPos) / Program.E.Speed) * 1000))
                 {
                     result.Add(tmpWOrbPos);
                 }
