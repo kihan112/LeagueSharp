@@ -26,6 +26,8 @@ namespace Pentakill_Syndra
         public static Spell QE;
         public static Spell R;
 
+        public static Vector3 tmpQOrbPos = new Vector3();
+
         public static SpellSlot IgniteSlot;
 
         public static Items.Item DFG;
@@ -214,7 +216,16 @@ namespace Pentakill_Syndra
         private static void Obj_AI_Hero_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe && (args.SData.Name == "SyndraQ"))
+            {
                 Q.LastCastAttemptT = Environment.TickCount;
+                tmpQOrbPos = args.End;
+                if (Config.Item("CastQE").GetValue<KeyBind>().Active || (Config.Item("ComboActive").GetValue<KeyBind>().Active && Config.Item("UseQECombo").GetValue<bool>()) ||
+                    ((Config.Item("HarassActive").GetValue<KeyBind>().Active || Config.Item("HarassActiveT").GetValue<KeyBind>().Active) && Config.Item("UseQEHarass").GetValue<bool>())) //여기작업할것    
+                {
+                    CastQE2();
+                }          
+            }
+                
             if (sender.IsMe && (args.SData.Name == "SyndraW" || args.SData.Name == "syndraw2" || args.SData.Name == "syndrawcast"))
                 W.LastCastAttemptT = Environment.TickCount;
             if (sender.IsMe && (args.SData.Name == "SyndraE" || args.SData.Name == "syndrae5"))
@@ -500,7 +511,7 @@ namespace Pentakill_Syndra
         {
             foreach (var orb in OrbManager.GetOrbs(true))
             {
-                if (Player.Distance(orb) < E.Range)
+                if (Player.ServerPosition.To2D().Distance(orb) < E.Range) 
                 {
                     var startPoint = orb.To2D().Extend(Player.ServerPosition.To2D(), 100);
                     var endPoint = Player.ServerPosition.To2D().Extend(orb.To2D(), Player.Distance(orb) > 200 ? 1300 : 1000);
@@ -516,34 +527,31 @@ namespace Pentakill_Syndra
                 }
             }
         }
-
-        static async void CastQE2()
-        {
-            await Task.Delay((int)(((Q.Delay - (E.Delay + OrbManager.tmpQOrbPos.To2D().Distance(Player.ServerPosition.To2D()) / E.Speed)) * 1000) - (Environment.TickCount - Q.LastCastAttemptT)));
-
-            foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>())
-            {
-                if (enemy.IsValidTarget(QE.Range))
+        static void CastQE2()
+        { //
+            int Delay = (int)(((Q.Delay - (E.Delay + tmpQOrbPos.To2D().Distance(Player.ServerPosition.To2D()) / QE.Speed)) * 1000) - (Environment.TickCount - Q.LastCastAttemptT));
+            while (Delay > Environment.TickCount) {;}
+            foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>())         
+            {             
+                if (enemy.IsValidTarget(QE.Range))                       
                 {
-                    if (Player.Distance(OrbManager.tmpQOrbPos) < E.Range)
-                    {
-                        var startPoint = OrbManager.tmpQOrbPos.To2D().Extend(Player.ServerPosition.To2D(), 100);
-                        var endPoint = Player.ServerPosition.To2D().Extend(OrbManager.tmpQOrbPos.To2D(), Player.Distance(OrbManager.tmpQOrbPos) > 200 ? 1300 : 1000);
-                        QE.Delay = E.Delay + Player.Distance(OrbManager.tmpQOrbPos) / QE.Speed;
-                        QE.From = OrbManager.tmpQOrbPos;
+                    if (Player.ServerPosition.To2D().Distance(tmpQOrbPos.To2D()) < E.Range)             
+                    {               
+                        var startPoint = tmpQOrbPos.To2D().Extend(Player.ServerPosition.To2D(), 100);                
+                        var endPoint = Player.ServerPosition.To2D().Extend(tmpQOrbPos.To2D(), Player.Distance(tmpQOrbPos) > 200 ? 1300 : 1000);                
+                        QE.Delay = E.Delay + Player.Distance(tmpQOrbPos) / QE.Speed;                 
+                        QE.From = tmpQOrbPos;                 
                         PredictionOutput enemyPred = QE.GetPrediction(enemy);
-                        if (enemyPred.Hitchance >= HitChance.Medium && E.IsReady() && enemyPred.UnitPosition.To2D().Distance(startPoint, endPoint, false) < QE.Width + enemy.BoundingRadius)
+                        if (enemyPred.Hitchance >= HitChance.Medium && E.IsReady() && enemyPred.UnitPosition.To2D().Distance(startPoint, endPoint, false) < QE.Width + enemy.BoundingRadius)                   
                         {
-                            while ((E.Delay + (Player.Distance(OrbManager.tmpQOrbPos) / E.Speed) * 1000) < (Q.LastCastAttemptT + (Q.Delay * 1000) - Environment.TickCount))
-                            {
-                                await Task.Delay((int)(((Q.Delay - (E.Delay + OrbManager.tmpQOrbPos.To2D().Distance(Player.ServerPosition.To2D()) / E.Speed)) * 1000) - (Environment.TickCount - Q.LastCastAttemptT)));
-                            }
-                            E.Cast(OrbManager.tmpQOrbPos);
-                            E.LastCastAttemptT = Environment.TickCount;
-                            return;
-                        }
-                    }
-                }
+                            Delay = (int)(((Q.Delay - (E.Delay + tmpQOrbPos.To2D().Distance(Player.ServerPosition.To2D()) / QE.Speed)) * 1000) - (Environment.TickCount - Q.LastCastAttemptT));                      
+                            while (Delay > Environment.TickCount) { ;}                       
+                            E.Cast(tmpQOrbPos);                       
+                            E.LastCastAttemptT = Environment.TickCount;                         
+                            return;                        
+                        }                   
+                    }                  
+                }             
             }
         }
     }

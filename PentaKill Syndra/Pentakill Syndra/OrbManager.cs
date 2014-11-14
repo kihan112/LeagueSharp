@@ -89,12 +89,12 @@ namespace Pentakill_Syndra
             }
             if (!toGrab)
             {
-                if ((Environment.TickCount > tmpQOrbT + Program.Q.Delay * 1000) || (tmpQOrbT + Program.Q.Delay * 1000 < Environment.TickCount + (Program.E.Delay + ObjectManager.Player.Distance(tmpQOrbPos) / Program.E.Speed) * 1000))
+                if ((Environment.TickCount > tmpQOrbT + Program.Q.Delay * 1000) || (tmpQOrbT + Program.Q.Delay * 1000 < Environment.TickCount + (Program.E.Delay + ObjectManager.Player.Distance(tmpQOrbPos) / Program.QE.Speed) * 1000))
                 {
                     result.Add(tmpQOrbPos);
                 }
 
-                if ((Environment.TickCount > tmpWOrbT + Program.W.Delay * 1000) || (tmpWOrbT + Program.W.Delay * 1000 < Environment.TickCount + (Program.E.Delay + ObjectManager.Player.Distance(tmpWOrbPos) / Program.E.Speed) * 1000))
+                if ((Environment.TickCount > tmpWOrbT + Program.W.Delay * 1000) || (tmpWOrbT + Program.W.Delay * 1000 < Environment.TickCount + (Program.E.Delay + ObjectManager.Player.Distance(tmpWOrbPos) / Program.QE.Speed) * 1000))
                 {
                     result.Add(tmpWOrbPos);
                 }
