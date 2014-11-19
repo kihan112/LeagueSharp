@@ -85,6 +85,9 @@ namespace Pentakill_Syndra
             //Load the orbwalker and add it to the menu as submenu.
             Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
 
+            //Hitchance menu:
+            Config.AddSubMenu(new Menu("Set Hitchance", "Hitchance"));
+            Config.SubMenu("Hitchance").AddItem(new MenuItem("SelectedHitchance", "").SetValue(new StringList(new[] {"Low", "Medium", "High"}, 1)));
 
             //Combo menu:
             Config.AddSubMenu(new Menu("Combo", "Combo"));
@@ -194,18 +197,24 @@ namespace Pentakill_Syndra
 
         static void StartQECombo(Obj_AI_Base target)
         {
+            HitChance SelectedHitchance = HitChance.Low;
+            if (Config.Item("SelectedHitchance").GetValue<StringList>().SelectedIndex == 1)           
+                SelectedHitchance = HitChance.Medium;
+            else if (Config.Item("SelectedHitchance").GetValue<StringList>().SelectedIndex == 2)
+                SelectedHitchance = HitChance.High;
+
             if (!(Q.IsReady() && E.IsReady())) return;
             if (target.IsValidTarget(Q.Range))
             {
                 PredictionOutput prediction = Q.GetPrediction(target);
-                if (prediction.Hitchance >= HitChance.Medium)
+                if (prediction.Hitchance >= SelectedHitchance)
                     Q.Cast(Player.ServerPosition.To2D().Extend(prediction.CastPosition.To2D(), Player.Distance(prediction.CastPosition.To2D()) - 90f));
             }
             else if (target.IsValidTarget(QE.Range))
             {
                 QE.Delay = Q.Delay - (E.Range / QE.Speed);
                 PredictionOutput prediction = QE.GetPrediction(target);
-                if (prediction.Hitchance >= HitChance.Medium)
+                if (prediction.Hitchance >= SelectedHitchance)
                 {
 
                     Q.Cast(Player.ServerPosition.To2D().Extend(prediction.CastPosition.To2D(), E.Range));
@@ -237,12 +246,18 @@ namespace Pentakill_Syndra
 
         static void StartWECombo(Obj_AI_Base target)
         {
+            HitChance SelectedHitchance = HitChance.Low;
+            if (Config.Item("SelectedHitchance").GetValue<StringList>().SelectedIndex == 1)
+                SelectedHitchance = HitChance.Medium;
+            else if (Config.Item("SelectedHitchance").GetValue<StringList>().SelectedIndex == 2)
+                SelectedHitchance = HitChance.High;
+
             if (!(W.IsReady() && E.IsReady())) return;
             if (target.IsValidTarget(Q.Range) && OrbManager.WObject(true) != null)
             {                              
                 W.From = OrbManager.WObject(true).ServerPosition;
                 PredictionOutput prediction = W.GetPrediction(target);
-                if (prediction.Hitchance >= HitChance.Medium)
+                if (prediction.Hitchance >= SelectedHitchance)
                     W.Cast(Player.ServerPosition.To2D().Extend(prediction.CastPosition.To2D(), Player.Distance(prediction.CastPosition.To2D()) - 90f));
             }
             else if (target.IsValidTarget(QE.Range) && OrbManager.WObject(true) != null)
@@ -251,7 +266,7 @@ namespace Pentakill_Syndra
                 QE.Delay = W.Delay + (W.From.To2D().Distance(Player.ServerPosition.To2D().Extend(Player.ServerPosition.To2D(), E.Range)) / W.Speed) - (E.Range / QE.Speed);
                 PredictionOutput prediction = QE.GetPrediction(target);
 
-                if (prediction.Hitchance >= HitChance.Medium)
+                if (prediction.Hitchance >= SelectedHitchance)
                 {
                     W.Cast(Player.ServerPosition.To2D().Extend(prediction.CastPosition.To2D(), E.Range));
                 }
@@ -325,6 +340,12 @@ namespace Pentakill_Syndra
 
         static void UseSpells(bool useQ, bool useW, bool useE, bool useQE, bool useR)
         {
+            HitChance SelectedHitchance = HitChance.Low;
+            if (Config.Item("SelectedHitchance").GetValue<StringList>().SelectedIndex == 1)
+                SelectedHitchance = HitChance.Medium;
+            else if (Config.Item("SelectedHitchance").GetValue<StringList>().SelectedIndex == 2)
+                SelectedHitchance = HitChance.High;
+
             var qTarget = SimpleTs.GetTarget(Q.Range + Q.Width, SimpleTs.DamageType.Magical);
             var wTarget = SimpleTs.GetTarget(W.Range + W.Width, SimpleTs.DamageType.Magical);
             var qeTarget = SimpleTs.GetTarget(QE.Range, SimpleTs.DamageType.Magical);
@@ -348,7 +369,7 @@ namespace Pentakill_Syndra
             if (qTarget != null && useQ && Q.IsReady())
             {
                 PredictionOutput prediction = Q.GetPrediction(qTarget, true);
-                if (prediction.Hitchance >= HitChance.Medium)
+                if (prediction.Hitchance >= SelectedHitchance)
                     Q.Cast(prediction.CastPosition, true);
             }
             if (useE && E.IsReady())
@@ -390,7 +411,7 @@ namespace Pentakill_Syndra
                     {
                         W.From = OrbManager.WObject(false).ServerPosition;
                         PredictionOutput prediction = W.GetPrediction(wTarget, true);
-                        if (prediction.Hitchance >= HitChance.Medium)
+                        if (prediction.Hitchance >= SelectedHitchance)
                             W.Cast(prediction.CastPosition);
                     }
                 }
@@ -509,16 +530,24 @@ namespace Pentakill_Syndra
 
         static void UseE(Obj_AI_Base enemy)
         {
+            HitChance SelectedHitchance = HitChance.Low;
+            if (Config.Item("SelectedHitchance").GetValue<StringList>().SelectedIndex == 1)
+                SelectedHitchance = HitChance.Medium;
+            else if (Config.Item("SelectedHitchance").GetValue<StringList>().SelectedIndex == 2)
+                SelectedHitchance = HitChance.High;
+
             foreach (var orb in OrbManager.GetOrbs(true))
             {
                 if (Player.ServerPosition.To2D().Distance(orb) < E.Range) 
                 {
                     var startPoint = orb.To2D().Extend(Player.ServerPosition.To2D(), 100);
                     var endPoint = Player.ServerPosition.To2D().Extend(orb.To2D(), Player.Distance(orb) > 200 ? 1300 : 1000);
-                    QE.Delay = E.Delay + Player.Distance(orb) / QE.Speed;
-                    QE.From = orb;
+                    //QE.Delay = E.Delay + Player.Distance(orb) / QE.Speed;
+                    //QE.From = orb;
+                    QE.Delay = E.Delay + (orb.Distance(Player.ServerPosition) / E.Speed) - (orb.Distance(Player.ServerPosition) / QE.Speed);
+                    QE.From = Player.ServerPosition;
                     PredictionOutput enemyPred = QE.GetPrediction(enemy);
-                    if (enemyPred.Hitchance >= HitChance.Medium && E.IsReady() && enemyPred.UnitPosition.To2D().Distance(startPoint, endPoint, false) < QE.Width + enemy.BoundingRadius)
+                    if (enemyPred.Hitchance >= SelectedHitchance && E.IsReady() && enemyPred.UnitPosition.To2D().Distance(startPoint, endPoint, false) < QE.Width + enemy.BoundingRadius)
                     {
                         E.Cast(orb);
                         E.LastCastAttemptT = Environment.TickCount;
@@ -528,7 +557,13 @@ namespace Pentakill_Syndra
             }
         }
         static void CastQE2()
-        { //
+        {
+            HitChance SelectedHitchance = HitChance.Low;
+            if (Config.Item("SelectedHitchance").GetValue<StringList>().SelectedIndex == 1)
+                SelectedHitchance = HitChance.Medium;
+            else if (Config.Item("SelectedHitchance").GetValue<StringList>().SelectedIndex == 2)
+                SelectedHitchance = HitChance.High;
+
             int Delay = (int)(((Q.Delay - (E.Delay + tmpQOrbPos.To2D().Distance(Player.ServerPosition.To2D()) / QE.Speed)) * 1000) - (Environment.TickCount - Q.LastCastAttemptT));
             while (Delay > Environment.TickCount) {;}
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>())         
@@ -538,11 +573,13 @@ namespace Pentakill_Syndra
                     if (Player.ServerPosition.To2D().Distance(tmpQOrbPos.To2D()) < E.Range)             
                     {               
                         var startPoint = tmpQOrbPos.To2D().Extend(Player.ServerPosition.To2D(), 100);                
-                        var endPoint = Player.ServerPosition.To2D().Extend(tmpQOrbPos.To2D(), Player.Distance(tmpQOrbPos) > 200 ? 1300 : 1000);                
-                        QE.Delay = E.Delay + Player.Distance(tmpQOrbPos) / QE.Speed;                 
-                        QE.From = tmpQOrbPos;                 
+                        var endPoint = Player.ServerPosition.To2D().Extend(tmpQOrbPos.To2D(), Player.Distance(tmpQOrbPos) > 200 ? 1300 : 1000);
+                        //QE.Delay = E.Delay + Player.Distance(orb) / QE.Speed;
+                        //QE.From = orb;
+                        QE.Delay = E.Delay + (tmpQOrbPos.Distance(Player.ServerPosition) / E.Speed) - (tmpQOrbPos.Distance(Player.ServerPosition) / QE.Speed);
+                        QE.From = Player.ServerPosition;            
                         PredictionOutput enemyPred = QE.GetPrediction(enemy);
-                        if (enemyPred.Hitchance >= HitChance.Medium && E.IsReady() && enemyPred.UnitPosition.To2D().Distance(startPoint, endPoint, false) < QE.Width + enemy.BoundingRadius)                   
+                        if (enemyPred.Hitchance >= SelectedHitchance && E.IsReady() && enemyPred.UnitPosition.To2D().Distance(startPoint, endPoint, false) < QE.Width + enemy.BoundingRadius)                   
                         {
                             Delay = (int)(((Q.Delay - (E.Delay + tmpQOrbPos.To2D().Distance(Player.ServerPosition.To2D()) / QE.Speed)) * 1000) - (Environment.TickCount - Q.LastCastAttemptT));                      
                             while (Delay > Environment.TickCount) { ;}                       
