@@ -7,8 +7,12 @@ C:\Users\rythimy\Documents\GitHub\Himeragi Series\Himeragi Series\bin\Release\Sh
 C:\Users\rythimy\Documents\GitHub\Himeragi Series\Himeragi Series\bin\Release\SharpDX.Direct3D9.dll
 C:\Users\rythimy\Documents\GitHub\Himeragi Series\Himeragi Series\bin\Release\SharpDX.Toolkit.dll
 C:\Users\rythimy\Documents\GitHub\Himeragi Series\Himeragi Series\bin\Release\SharpDX.Toolkit.Graphics.dll
+C:\Users\rythimy\Documents\GitHub\Himeragi Series\Himeragi Series\bin\Release\clipper_library.dll
 C:\Users\rythimy\Documents\GitHub\Himeragi Series\Himeragi Series\bin\Release\LeagueSharp.xml
 C:\Users\rythimy\Documents\GitHub\Himeragi Series\Himeragi Series\bin\Release\SharpDX.Toolkit.xml
 C:\Users\rythimy\Documents\GitHub\Himeragi Series\Himeragi Series\bin\Release\SharpDX.Toolkit.Graphics.xml
 C:\Users\rythimy\Documents\GitHub\Himeragi Series\Himeragi Series\obj\Debug\Himeragi Series.exe
 C:\Users\rythimy\Documents\GitHub\Himeragi Series\Himeragi Series\obj\Debug\Himeragi Series.pdb
+C:\Users\rythimy\Documents\GitHub\LeagueSharp\Himeragi Series\Himeragi Series\bin\Release\Himeragi Series.exe.config
+C:\Users\rythimy\Documents\GitHub\LeagueSharp\Himeragi Series\Himeragi Series\obj\Debug\Himeragi Series.exe
+C:\Users\rythimy\Documents\GitHub\LeagueSharp\Himeragi Series\Himeragi Series\obj\Debug\Himeragi Series.pdb

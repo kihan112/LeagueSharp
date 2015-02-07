@@ -98,7 +98,7 @@ namespace Himeragi_Series.Champions
             {
                 if (spell == E)
                 {
-                    if (E.InRange(target, 800))
+                    if (E.IsInRange(target, 800))
                     {
                         return output;
                     }
@@ -134,16 +134,10 @@ namespace Himeragi_Series.Champions
                 //}
             }
 
-            if (Player.Position.Distance(Target.Position) <= 750 && Q.IsReady() && E.IsReady() && Player.Spellbook.GetSpell(SpellSlot.R).IsReady())
-            {
-                Player.Spellbook.CastSpell(Player.GetSpellSlot(ItemData.Deathfire_Grasp.Name));
-                Player.Spellbook.CastSpell(Player.GetSpellSlot(ItemData.Blackfire_Torch.Name));
-            }
-
             if (Player.Spellbook.GetSpell(SpellSlot.R).IsReady())
             {
                 SpellSlot ulttype = UltType(); //[Todo] 데미지계산을 통해 WQR할지 WRQ할지 정하기
-                if (ulttype == SpellSlot.Q && !Q.IsReady() && Q.InRange(Target, (int)GetRealQRange(Target)))
+                if (ulttype == SpellSlot.Q && !Q.IsReady() && Q.IsInRange(Target, (int)GetRealQRange(Target)))
                 {
                     PredictionOutput canhit;
                     if (W.IsReady())
@@ -211,7 +205,7 @@ namespace Himeragi_Series.Champions
                 }
             }
 
-            if (Q.IsReady() && Q.InRange(Target, (int)GetRealQRange(Target)))
+            if (Q.IsReady() && Q.IsInRange(Target, (int)GetRealQRange(Target)))
             {
                 if (W.IsReady() && Wstates() == 1)
                 {                    
@@ -255,7 +249,7 @@ namespace Himeragi_Series.Champions
                 }
             }
 
-            if (E.IsReady() && !(Player.Spellbook.GetSpell(SpellSlot.R).IsReady() && (UltType() == SpellSlot.W || (UltType() == SpellSlot.Q && Q.InRange(Target, (int)GetRealQRange(Target))))))
+            if (E.IsReady() && !(Player.Spellbook.GetSpell(SpellSlot.R).IsReady() && (UltType() == SpellSlot.W || (UltType() == SpellSlot.Q && Q.IsInRange(Target, (int)GetRealQRange(Target))))))
             {
                 /*PredictionOutput canhitoutput = CanHit(E, Target);
                 if (canhitoutput != null)
@@ -263,7 +257,7 @@ namespace Himeragi_Series.Champions
                     E.Cast(canhitoutput.CastPosition);
                     return;
                 }*/
-                if (E.InRange(Target, 800))
+                if (E.IsInRange(Target, 800))
                 {
                     if (E.Cast(Target) == Spell.CastStates.SuccessfullyCasted)                  
                         return;
@@ -277,7 +271,7 @@ namespace Himeragi_Series.Champions
             Target = TargetSelector.GetTarget(800f, TargetSelector.DamageType.Magical);
             if (Target == null) return;
 
-            if (Q.IsReady() && Q.InRange(Target, (int)GetRealQRange(Target)))
+            if (Q.IsReady() && Q.IsInRange(Target, (int)GetRealQRange(Target)))
             {
                 if (Player.Spellbook.CastSpell(SpellSlot.Q, Target))             
                     return;
@@ -287,7 +281,7 @@ namespace Himeragi_Series.Champions
             if (E.IsReady() && QLastCastedTime + Q.Delay * 1000 + (Player.Position.To2D().Distance(Target.Position.To2D()) / Q.Speed) < Environment.TickCount + E.Delay * 1000 + (Player.Position.To2D().Distance(Target.Position.To2D()) / E.Speed) && RQLastCastedTime + Q.Delay * 1000 + (Player.Position.To2D().Distance(Target.Position.To2D()) / Q.Speed) < Environment.TickCount + E.Delay * 1000 + (Player.Position.To2D().Distance(Target.Position.To2D()) / E.Speed))
             {
                 //E.Cast(output.CastPosition);
-                if (E.InRange(Target, 800))
+                if (E.IsInRange(Target, 800))
                 {
                     if (E.Cast(Target) == Spell.CastStates.SuccessfullyCasted)                   
                         return;
@@ -320,7 +314,7 @@ namespace Himeragi_Series.Champions
                 }
             }
 
-            if (W.IsReady() && Wstates() == 2 && !(Q.IsReady() && Q.InRange(Target, (int)GetRealQRange(Target))))
+            if (W.IsReady() && Wstates() == 2 && !(Q.IsReady() && Q.IsInRange(Target, (int)GetRealQRange(Target))))
             {     
                 if (CanHit(E, Target) == null)
                     Player.Spellbook.CastSpell(SpellSlot.W);
@@ -328,9 +322,9 @@ namespace Himeragi_Series.Champions
 
         }
 
-        public override void Spellbook_OnCastSpell(GameObject unit, SpellbookCastSpellEventArgs args)
+        public override void Spellbook_OnCastSpell(Spellbook spellbook, SpellbookCastSpellEventArgs args)
         {
-            if (unit.IsMe)
+            if (spellbook.Owner.IsMe)
             {
                 if (args.Slot == SpellSlot.Q)
                 {

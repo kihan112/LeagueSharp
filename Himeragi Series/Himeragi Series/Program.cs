@@ -85,7 +85,7 @@ namespace Himeragi_Series
             }
         }
 
-        public virtual void Spellbook_OnCastSpell(GameObject unit, SpellbookCastSpellEventArgs args) { }
+        public virtual void Spellbook_OnCastSpell(Spellbook spellbook, SpellbookCastSpellEventArgs args) { }
 
         public virtual void Drawing_OnDraw(EventArgs args) {}
 
