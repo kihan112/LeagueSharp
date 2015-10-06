@@ -1,0 +1,11 @@
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\bin\Release\Ryze.exe.config
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\bin\Release\Ryze.exe
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\bin\Release\Ryze.pdb
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\bin\Release\LeagueSharp.Common.dll
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\bin\Release\LeagueSharp.dll
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\bin\Release\SharpDX.dll
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\bin\Release\SharpDX.Direct3D9.dll
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\bin\Release\clipper_library.dll
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\bin\Release\LeagueSharp.Sandbox.dll
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\obj\Debug\Ryze.exe
+C:\Users\Yukina\Documents\Visual Studio 2013\Projects\Ryze\Ryze\obj\Debug\Ryze.pdb
